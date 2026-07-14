@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA TestUp</title>
+    <style>
+        /* --- RESET & BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #001e62 0%, #181733 35%, #6c1d45 70%, #a50044 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        /* --- CARD CONTAINER (GLASSMORPHISM) --- */
+        .container {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #d3b0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #bfa3ff;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- UTILITIES --- */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- FORMS & INPUTS --- */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: #e0d5ff;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #9d4edd;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+        }
+
+        /* --- MESSAGES (POM TARGETS) --- */
+        .error-message {
+            color: #ff4a5a;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .main-error {
+            background: rgba(255, 74, 90, 0.15);
+            border: 1px solid #ff4a5a;
+            color: #ff7582;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #7b2cbf 0%, #4a148c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #9d4edd 0%, #6a1b9a 100%);
+            box-shadow: 0 6px 20px rgba(157, 78, 221, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #bfa3ff;
+            border: 1px solid rgba(191, 163, 255, 0.3);
+            margin-top: 15px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(191, 163, 255, 0.1);
+            color: #ffffff;
+            border-color: #bfa3ff;
+        }
+
+        /* --- WELCOME PAGE --- */
+        .welcome-screen {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        
+        <div id="page-login" class="page active">
+            <h1 id="login-title">Seja Bem-Vindo ao QA TestUp</h1>
+            <p class="subtitle" id="login-subtitle">Área de Treinamento em Automação</p>
+            
+            <div id="login-main-error" class="main-error"></div>
+
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="text" id="login-email" placeholder="Ex: teste@teste.com font">
+                    <div id="error-login-email" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Senha</label>
+                    <input type="password" id="login-password" placeholder="Digite sua senha">
+                    <div id="error-login-password" class="error-message"></div>
+                </div>
+
+                <button type="submit" id="btn-login-submit" class="btn btn-primary">Entrar</button>
+                <button type="button" id="btn-go-to-register" class="btn btn-secondary" onclick="navigateTo('page-register')">Criar uma conta</button>
+            </form>
+        </div>
+
+        <div id="page-register" class="page">
+            <h1 id="register-title">Criar Conta</h1>
+            <p class="subtitle" id="register-subtitle">Preencha os dados para simular o cadastro</p>
+
+            <form id="form-register" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="reg-first-name">Nome</label>
+                    <input type="text" id="reg-first-name" placeholder="João">
+                </div>
+                <div class="form-group">
+                    <label for="reg-last-name">Sobrenome</label>
+                    <input type="text" id="reg-last-name" placeholder="Silva">
+                </div>
+                <div class="form-group">
+                    <label for="reg-cpf">CPF</label>
+                    <input type="text" id="reg-cpf" placeholder="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label for="reg-phone">Telefone</label>
+                    <input type="text" id="reg-phone" placeholder="(11) 99999-9999">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="text" id="reg-email" placeholder="nome@provedor.com">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Senha</label>
+                    <input type="password" id="reg-password" placeholder="Mínimo 7 caracteres">
+                </div>
+
+                <button type="submit" id="btn-register-submit" class="btn btn-primary">Cadastrar</button>
+                <button type="button" id="btn-back-to-login" class="btn btn-secondary" onclick="navigateTo('page-login')">Voltar para o Login</button>
+            </form>
+        </div>
+
+        <div id="page-welcome" class="page">
+            <div class="welcome-screen">
+                <div class="welcome-icon" id="welcome-avatar">🚀</div>
+                <h1 class="welcome-title" id="welcome-message">Seja Bem-Vindo!</h1>
+                <p class="subtitle" id="welcome-logged-user"></p>
+                
+                <button type="button" id="btn-logout" class="btn btn-secondary" onclick="logout()" style="margin-top: 30px; max-width: 150px;">Sair</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Credenciais padrão (Mock)
+        const DEFAULT_USER = {
+            email: "teste@teste.com",
+            password: "teste@123",
+            name: "QA Engineer"
+        };
+
+        // Gerenciamento de Navegação SPA
+        function navigateTo(pageId) {
+            // Oculta todas as páginas
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Limpa mensagens de erro ao navegar
+            clearErrors();
+            // Exibe a página alvo
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function clearErrors() {
+            document.getElementById('login-main-error').style.display = 'none';
+            document.getElementById('error-login-email').style.display = 'none';
+            document.getElementById('error-login-password').style.display = 'none';
+        }
+
+        // Validação da Regra de Senha Fortificada
+        function validatePasswordStrength(password) {
+            const minLength = password.length >= 7;
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+            return minLength && hasLowercase && hasNumber && hasSpecial;
+        }
+
+        // Validação básica de formato de e-mail
+        function validateEmailFormat(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Evento de Login
+        function handleLogin(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const emailInput = document.getElementById('login-email').value.trim();
+            const passwordInput = document.getElementById('login-password').value;
+
+            let hasError = false;
+
+            // 1. Validando campos vazios
+            if (!emailInput) {
+                const errEmail = document.getElementById('error-login-email');
+                errEmail.innerText = "O campo e-mail não pode estar vazio.";
+                errEmail.style.display = 'block';
+                hasError = true;
+            }
+
+            if (!passwordInput) {
+                const errPass = document.getElementById('error-login-password');
+                errPass.innerText = "O campo senha não pode estar vazio.";
+                errPass.style.display = 'block';
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // 2. Validando formato do e-mail
+            if (!validateEmailFormat(emailInput)) {
+                const errEmail = document.getElementById('error-login-email');
+                errEmail.innerText = "Por favor, insira um e-mail válido.";
+                errEmail.style.display = 'block';
+                return;
+            }
+
+            // 3. Validando complexidade da senha antes do match de credenciais
+            if (!validatePasswordStrength(passwordInput)) {
+                const errPass = document.getElementById('error-login-password');
+                errPass.innerText = "A senha deve conter no mínimo 7 dígitos, incluindo uma letra minúscula, um número e um caractere especial.";
+                errPass.style.display = 'block';
+                return;
+            }
+
+            // 4. Verificação de credenciais corretas
+            if (emailInput === DEFAULT_USER.email && passwordInput === DEFAULT_USER.password) {
+                // Sucesso
+                document.getElementById('welcome-logged-user').innerText = DEFAULT_USER.name;
+                navigateTo('page-welcome');
+            } else {
+                // Erro de autenticação geral
+                const mainError = document.getElementById('login-main-error');
+                mainError.innerText = "E-mail ou senha incorretos.";
+                mainError.style.display = 'block';
+            }
+        }
+
+        // Evento de Cadastro (Simulação)
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('reg-first-name').value;
+            
+            // Simula a criação alterando o nome de exibição para o teste
+            if(name) {
+                DEFAULT_USER.name = name;
+            }
+            
+            alert('Cadastro simulado com sucesso!');
+            navigateTo('page-login');
+            document.getElementById('form-register').reset();
+        }
+
+        // Evento de Logout
+        function logout() {
+            document.getElementById('form-login').reset();
+            navigateTo('page-login');
+        }
+    </script>
+</body>
+</html>

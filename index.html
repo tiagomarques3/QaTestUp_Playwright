@@ -122,6 +122,18 @@
             display: none;
         }
 
+        .success-message {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
         /* --- BUTTONS --- */
         .btn {
             width: 100%;
@@ -160,15 +172,31 @@
             border-color: #bfa3ff;
         }
 
+        .btn-danger {
+            background: rgba(255, 74, 90, 0.2);
+            color: #ff7582;
+            border: 1px solid rgba(255, 74, 90, 0.4);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-danger:hover {
+            background: #ff4a5a;
+            color: white;
+        }
+
         /* --- WELCOME PAGE --- */
         .welcome-screen {
             text-align: center;
-            padding: 20px 0;
+            padding: 10px 0;
         }
 
         .welcome-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
             animation: pulse 2s infinite;
         }
 
@@ -179,11 +207,169 @@
         }
 
         .welcome-title {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
             background: linear-gradient(to right, #00f2fe, #4facfe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        /* --- ADMIN/USERS LIST --- */
+        .users-list-container {
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .users-list-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #bfa3ff;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-email {
+            font-size: 0.75rem;
+            color: #a29bfe;
+        }
+
+        /* --- MODAL DIALOG (CONFIRM EXCLUSION) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #181733;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            font-size: 0.95rem;
+            color: #bfa3ff;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-yes {
+            background: #ff4a5a;
+            color: white;
+        }
+
+        .modal-btn-yes:hover {
+            background: #ff1f35;
+        }
+
+        .modal-btn-no {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-btn-no:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Estilização para o alerta de sucesso dinâmico na tela principal */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(46, 204, 113, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            z-index: 10000;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
@@ -196,11 +382,12 @@
             <p class="subtitle" id="login-subtitle">Área de Treinamento em Automação</p>
             
             <div id="login-main-error" class="main-error"></div>
+            <div id="login-main-success" class="success-message"></div>
 
             <form id="form-login" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="login-email">E-mail</label>
-                    <input type="text" id="login-email" placeholder="Ex: teste@teste.com font">
+                    <input type="text" id="login-email" placeholder="Ex: teste@teste.com">
                     <div id="error-login-email" class="error-message"></div>
                 </div>
 
@@ -219,10 +406,13 @@
             <h1 id="register-title">Criar Conta</h1>
             <p class="subtitle" id="register-subtitle">Preencha os dados para simular o cadastro</p>
 
+            <div id="register-main-error" class="main-error"></div>
+
             <form id="form-register" onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label for="reg-first-name">Nome</label>
                     <input type="text" id="reg-first-name" placeholder="João">
+                    <div id="error-reg-name" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="reg-last-name">Sobrenome</label>
@@ -239,10 +429,12 @@
                 <div class="form-group">
                     <label for="reg-email">E-mail</label>
                     <input type="text" id="reg-email" placeholder="nome@provedor.com">
+                    <div id="error-reg-email" class="error-message"></div>
                 </div>
                 <div class="form-group">
                     <label for="reg-password">Senha</label>
                     <input type="password" id="reg-password" placeholder="Mínimo 7 caracteres">
+                    <div id="error-reg-password" class="error-message"></div>
                 </div>
 
                 <button type="submit" id="btn-register-submit" class="btn btn-primary">Cadastrar</button>
@@ -256,49 +448,177 @@
                 <h1 class="welcome-title" id="welcome-message">Seja Bem-Vindo!</h1>
                 <p class="subtitle" id="welcome-logged-user"></p>
                 
-                <button type="button" id="btn-logout" class="btn btn-secondary" onclick="logout()" style="margin-top: 30px; max-width: 150px;">Sair</button>
+                <div class="users-list-container">
+                    <div class="users-list-title">Usuários Cadastrados (Banco de Dados)</div>
+                    <div id="users-list-wrapper">
+                        </div>
+                </div>
+
+                <button type="button" id="btn-logout" class="btn btn-secondary" onclick="logout()" style="margin-top: 20px;">Sair</button>
             </div>
         </div>
 
     </div>
 
+    <div id="modal-confirm" class="modal-overlay">
+        <div class="modal-content" id="modal-box">
+            <h2 class="modal-title" id="modal-confirm-title">Atenção</h2>
+            <p class="modal-text" id="modal-confirm-text">Deseja mesmo excluir este usuário?</p>
+            <div class="modal-actions">
+                <button type="button" id="btn-modal-confirm-yes" class="modal-btn modal-btn-yes">Sim</button>
+                <button type="button" id="btn-modal-confirm-no" class="modal-btn modal-btn-no" onclick="closeModal()">Não</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-success" class="toast-notification">Usuário excluído com sucesso!</div>
+
     <script>
-        // Credenciais padrão (Mock)
-        const DEFAULT_USER = {
-            email: "teste@teste.com",
-            password: "teste@123",
-            name: "QA Engineer"
-        };
+        // Variável de controle do usuário selecionado para exclusão
+        let emailToExcluding = null;
+
+        // BANCO DE DADOS EM LOCALSTORAGE
+        if (!localStorage.getItem('users_db')) {
+            const initialDatabase = [
+                {
+                    email: "teste@teste.com",
+                    password: "teste@123",
+                    name: "QA Engineer"
+                }
+            ];
+            localStorage.setItem('users_db', JSON.stringify(initialDatabase));
+        }
+
+        function getUsersFromDB() {
+            return JSON.parse(localStorage.getItem('users_db'));
+        }
+
+        function saveUserToDB(userObj) {
+            const db = getUsersFromDB();
+            db.push(userObj);
+            localStorage.setItem('users_db', JSON.stringify(db));
+        }
+
+        // --- GERENCIAMENTO DE MODAL ---
+        function openConfirmModal(email) {
+            emailToExcluding = email;
+            document.getElementById('modal-confirm').classList.add('open');
+        }
+
+        function closeModal() {
+            emailToExcluding = null;
+            document.getElementById('modal-confirm').classList.remove('open');
+        }
+
+        // Executa a exclusão quando clicado em "Sim"
+        document.getElementById('btn-modal-confirm-yes').addEventListener('click', () => {
+            if (emailToExcluding) {
+                deleteUserFromDB(emailToExcluding);
+                closeModal();
+                showToastNotification();
+            }
+        });
+
+        // Função de exclusão física no banco local
+        function deleteUserFromDB(emailToDelete) {
+            if (emailToDelete === "teste@teste.com") return;
+
+            let db = getUsersFromDB();
+            db = db.filter(user => user.email !== emailToDelete);
+            localStorage.setItem('users_db', JSON.stringify(db));
+            
+            renderUsersList();
+        }
+
+        // Exibe o Toast de Sucesso ao excluir
+        function showToastNotification() {
+            const toast = document.getElementById('toast-success');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Renderiza a lista de usuários com botão de excluir
+        function renderUsersList() {
+            const wrapper = document.getElementById('users-list-wrapper');
+            wrapper.innerHTML = '';
+            const db = getUsersFromDB();
+
+            db.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'user-item';
+                item.id = `user-row-${user.email.replace(/[@.]/g, '-')}`; 
+
+                const info = document.createElement('div');
+                info.className = 'user-info';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'user-name';
+                nameSpan.innerText = user.name;
+
+                const emailSpan = document.createElement('span');
+                emailSpan.className = 'user-email';
+                emailSpan.innerText = user.email;
+
+                info.appendChild(nameSpan);
+                info.appendChild(emailSpan);
+
+                item.appendChild(info);
+
+                if (user.email !== "teste@teste.com") {
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'btn-danger';
+                    deleteBtn.innerText = 'Excluir';
+                    deleteBtn.id = `btn-delete-${user.email.replace(/[@.]/g, '-')}`;
+                    // Ao invés de deletar direto, abre o modal de confirmação
+                    deleteBtn.onclick = () => openConfirmModal(user.email);
+                    item.appendChild(deleteBtn);
+                } else {
+                    const systemLabel = document.createElement('span');
+                    systemLabel.style.fontSize = '0.75rem';
+                    systemLabel.style.color = '#ffb86c';
+                    systemLabel.innerText = 'Sistema';
+                    item.appendChild(systemLabel);
+                }
+
+                wrapper.appendChild(item);
+            });
+        }
 
         // Gerenciamento de Navegação SPA
         function navigateTo(pageId) {
-            // Oculta todas as páginas
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-            // Limpa mensagens de erro ao navegar
             clearErrors();
-            // Exibe a página alvo
             document.getElementById(pageId).classList.add('active');
+
+            if (pageId === 'page-welcome') {
+                renderUsersList();
+            }
         }
 
         function clearErrors() {
             document.getElementById('login-main-error').style.display = 'none';
+            document.getElementById('login-main-success').style.display = 'none';
             document.getElementById('error-login-email').style.display = 'none';
             document.getElementById('error-login-password').style.display = 'none';
+            document.getElementById('register-main-error').style.display = 'none';
+            document.getElementById('error-reg-name').style.display = 'none';
+            document.getElementById('error-reg-email').style.display = 'none';
+            document.getElementById('error-reg-password').style.display = 'none';
         }
 
-        // Validação da Regra de Senha Fortificada
+        // Validações
         function validatePasswordStrength(password) {
             const minLength = password.length >= 7;
             const hasLowercase = /[a-z]/.test(password);
             const hasNumber = /[0-9]/.test(password);
             const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
             return minLength && hasLowercase && hasNumber && hasSpecial;
         }
 
-        // Validação básica de formato de e-mail
         function validateEmailFormat(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
@@ -314,7 +634,6 @@
 
             let hasError = false;
 
-            // 1. Validando campos vazios
             if (!emailInput) {
                 const errEmail = document.getElementById('error-login-email');
                 errEmail.innerText = "O campo e-mail não pode estar vazio.";
@@ -331,7 +650,6 @@
 
             if (hasError) return;
 
-            // 2. Validando formato do e-mail
             if (!validateEmailFormat(emailInput)) {
                 const errEmail = document.getElementById('error-login-email');
                 errEmail.innerText = "Por favor, insira um e-mail válido.";
@@ -339,7 +657,6 @@
                 return;
             }
 
-            // 3. Validando complexidade da senha antes do match de credenciais
             if (!validatePasswordStrength(passwordInput)) {
                 const errPass = document.getElementById('error-login-password');
                 errPass.innerText = "A senha deve conter no mínimo 7 dígitos, incluindo uma letra minúscula, um número e um caractere especial.";
@@ -347,35 +664,77 @@
                 return;
             }
 
-            // 4. Verificação de credenciais corretas
-            if (emailInput === DEFAULT_USER.email && passwordInput === DEFAULT_USER.password) {
-                // Sucesso
-                document.getElementById('welcome-logged-user').innerText = DEFAULT_USER.name;
+            const db = getUsersFromDB();
+            const userFound = db.find(user => user.email === emailInput && user.password === passwordInput);
+
+            if (userFound) {
+                document.getElementById('welcome-logged-user').innerText = userFound.name;
                 navigateTo('page-welcome');
             } else {
-                // Erro de autenticação geral
                 const mainError = document.getElementById('login-main-error');
                 mainError.innerText = "E-mail ou senha incorretos.";
                 mainError.style.display = 'block';
             }
         }
 
-        // Evento de Cadastro (Simulação)
+        // Evento de Cadastro
         function handleRegister(event) {
             event.preventDefault();
-            const name = document.getElementById('reg-first-name').value;
-            
-            // Simula a criação alterando o nome de exibição para o teste
-            if(name) {
-                DEFAULT_USER.name = name;
+            clearErrors();
+
+            const name = document.getElementById('reg-first-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+
+            let hasError = false;
+
+            if (!name) {
+                const err = document.getElementById('error-reg-name');
+                err.innerText = "O nome é obrigatório.";
+                err.style.display = 'block';
+                hasError = true;
             }
-            
-            alert('Cadastro simulado com sucesso!');
+
+            if (!validateEmailFormat(email)) {
+                const err = document.getElementById('error-reg-email');
+                err.innerText = "Insira um e-mail válido.";
+                err.style.display = 'block';
+                hasError = true;
+            }
+
+            if (!validatePasswordStrength(password)) {
+                const err = document.getElementById('error-reg-password');
+                err.innerText = "A senha não cumpre os requisitos mínimos de segurança.";
+                err.style.display = 'block';
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            const db = getUsersFromDB();
+            const emailExists = db.some(user => user.email === email);
+
+            if (emailExists) {
+                const mainError = document.getElementById('register-main-error');
+                mainError.innerText = "Este e-mail já está cadastrado no sistema.";
+                mainError.style.display = 'block';
+                return;
+            }
+
+            saveUserToDB({
+                email: email,
+                password: password,
+                name: name
+            });
+
             navigateTo('page-login');
+            const successMsg = document.getElementById('login-main-success');
+            successMsg.innerText = "Cadastro realizado com sucesso! Insira suas credenciais.";
+            successMsg.style.display = 'block';
+            
             document.getElementById('form-register').reset();
         }
 
-        // Evento de Logout
         function logout() {
             document.getElementById('form-login').reset();
             navigateTo('page-login');

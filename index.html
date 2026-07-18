@@ -32,7 +32,7 @@
             border-radius: 16px;
             padding: 40px;
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
@@ -99,6 +99,13 @@
             border-color: #9d4edd;
             background: rgba(255, 255, 255, 0.12);
             box-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
+        }
+
+        /* Input específico para arquivos */
+        input[type="file"] {
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
         }
 
         /* --- MESSAGES (POM TARGETS) --- */
@@ -188,30 +195,76 @@
             color: white;
         }
 
-        /* --- WELCOME PAGE --- */
+        .btn-export {
+            background: #2ecc71;
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-export:hover {
+            background: #27ae60;
+        }
+
+        /* --- WELCOME PAGE & PROFILE SECTION --- */
         .welcome-screen {
             text-align: center;
             padding: 10px 0;
         }
 
+        .profile-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px auto;
+        }
+
         .welcome-icon {
+            width: 100%;
+            height: 100%;
             font-size: 3.5rem;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #bfa3ff;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .welcome-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .welcome-title {
-            font-size: 1.8rem;
+        /* Seção de Upload de Arquivos */
+        .upload-section {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .upload-section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e0d5ff;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #00f2fe, #4facfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        }
+
+        .file-status {
+            font-size: 0.75rem;
+            color: #2ecc71;
+            margin-top: 5px;
+            display: none;
         }
 
         /* --- ADMIN/USERS LIST --- */
@@ -221,17 +274,26 @@
             border-radius: 8px;
             padding: 15px;
             text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
+        }
+
+        .users-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
         }
 
         .users-list-title {
             font-size: 0.9rem;
             font-weight: 600;
             color: #bfa3ff;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 5px;
+        }
+
+        .users-list-wrapper {
+            max-height: 150px;
+            overflow-y: auto;
         }
 
         .user-item {
@@ -350,7 +412,7 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Estilização para o alerta de sucesso dinâmico na tela principal */
+        /* Toast notifications */
         .toast-notification {
             position: fixed;
             top: 20px;
@@ -377,6 +439,7 @@
 
     <div class="container" id="main-container">
         
+        <!-- ================= PÁGINA 1: LOGIN ================= -->
         <div id="page-login" class="page active">
             <h1 id="login-title">Seja Bem-Vindo ao QA TestUp</h1>
             <p class="subtitle" id="login-subtitle">Área de Treinamento em Automação</p>
@@ -402,6 +465,7 @@
             </form>
         </div>
 
+        <!-- ================= PÁGINA 2: CADASTRO ================= -->
         <div id="page-register" class="page">
             <h1 id="register-title">Criar Conta</h1>
             <p class="subtitle" id="register-subtitle">Preencha os dados para simular o cadastro</p>
@@ -442,16 +506,41 @@
             </form>
         </div>
 
+        <!-- ================= PÁGINA 3: HOME / BOAS-VINDAS + DOCUMENTOS ================= -->
         <div id="page-welcome" class="page">
             <div class="welcome-screen">
-                <div class="welcome-icon" id="welcome-avatar">🚀</div>
+                <div class="profile-container">
+                    <div class="welcome-icon" id="welcome-avatar">🚀</div>
+                </div>
                 <h1 class="welcome-title" id="welcome-message">Seja Bem-Vindo!</h1>
-                <p class="subtitle" id="welcome-logged-user"></p>
+                <p class="subtitle" id="welcome-logged-user" style="margin-bottom: 15px;"></p>
                 
+                <!-- Nova Área: Central de Uploads (Fotos e Currículos) -->
+                <div class="upload-section">
+                    <div class="upload-section-title">Central de Documentos do Usuário</div>
+                    
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="upload-avatar">Foto de Perfil (Imagem)</label>
+                        <input type="file" id="upload-avatar" accept="image/*" onchange="handleAvatarUpload(this)">
+                        <div id="avatar-success-msg" class="file-status">✓ Foto de perfil atualizada!</div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="upload-resume">Currículo Profissional (PDF)</label>
+                        <input type="file" id="upload-resume" accept=".pdf" onchange="handleResumeUpload(this)">
+                        <div id="resume-success-msg" class="file-status">✓ Currículo anexado com sucesso!</div>
+                    </div>
+                </div>
+
+                <!-- Área de Gerenciamento de Usuários com Exportação -->
                 <div class="users-list-container">
-                    <div class="users-list-title">Usuários Cadastrados (Banco de Dados)</div>
-                    <div id="users-list-wrapper">
-                        </div>
+                    <div class="users-list-header">
+                        <div class="users-list-title">Usuários no Banco</div>
+                        <button type="button" id="btn-export-csv" class="btn-export" onclick="exportToCSV()">Exportar CSV</button>
+                    </div>
+                    <div id="users-list-wrapper" class="users-list-wrapper">
+                        <!-- Usuários serão listados dinamicamente aqui -->
+                    </div>
                 </div>
 
                 <button type="button" id="btn-logout" class="btn btn-secondary" onclick="logout()" style="margin-top: 20px;">Sair</button>
@@ -460,6 +549,7 @@
 
     </div>
 
+    <!-- ================= MODAL DE CONFIRMAÇÃO ================= -->
     <div id="modal-confirm" class="modal-overlay">
         <div class="modal-content" id="modal-box">
             <h2 class="modal-title" id="modal-confirm-title">Atenção</h2>
@@ -471,20 +561,17 @@
         </div>
     </div>
 
+    <!-- Alertas de feedback -->
     <div id="toast-success" class="toast-notification">Usuário excluído com sucesso!</div>
 
+    <!-- ================= LOGIC & VALIDATIONS (JS) ================= -->
     <script>
-        // Variável de controle do usuário selecionado para exclusão
         let emailToExcluding = null;
 
         // BANCO DE DADOS EM LOCALSTORAGE
         if (!localStorage.getItem('users_db')) {
             const initialDatabase = [
-                {
-                    email: "teste@teste.com",
-                    password: "teste@123",
-                    name: "QA Engineer"
-                }
+                { email: "teste@teste.com", password: "teste@123", name: "QA Engineer" }
             ];
             localStorage.setItem('users_db', JSON.stringify(initialDatabase));
         }
@@ -499,6 +586,51 @@
             localStorage.setItem('users_db', JSON.stringify(db));
         }
 
+        // --- MANIPULAÇÃO DE UPLOADS (SIMULADOS VIA BASE64 PARA FRONTEND) ---
+        function handleAvatarUpload(input) {
+            const file = input.files[0];
+            const msg = document.getElementById('avatar-success-msg');
+            const avatarDiv = document.getElementById('welcome-avatar');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarDiv.innerHTML = `<img src="${e.target.result}" alt="Avatar">`;
+                    msg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleResumeUpload(input) {
+            const file = input.files[0];
+            const msg = document.getElementById('resume-success-msg');
+            if (file) {
+                msg.style.display = 'block';
+            }
+        }
+
+        // --- EXPORTAÇÃO DE ARQUIVO CSV (DOWNLOAD REAL) ---
+        function exportToCSV() {
+            const db = getUsersFromDB();
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Nome,Email\n"; // Cabeçalho
+
+            db.forEach(user => {
+                csvContent += `"${user.name}","${user.email}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "usuarios_qa_testup.csv");
+            link.setAttribute("id", "download-csv-link"); // ID para ajudar na captura se necessário
+            document.body.appendChild(link);
+            
+            link.click(); // Dispara o download
+            document.body.removeChild(link);
+        }
+
         // --- GERENCIAMENTO DE MODAL ---
         function openConfirmModal(email) {
             emailToExcluding = email;
@@ -510,7 +642,6 @@
             document.getElementById('modal-confirm').classList.remove('open');
         }
 
-        // Executa a exclusão quando clicado em "Sim"
         document.getElementById('btn-modal-confirm-yes').addEventListener('click', () => {
             if (emailToExcluding) {
                 deleteUserFromDB(emailToExcluding);
@@ -519,27 +650,20 @@
             }
         });
 
-        // Função de exclusão física no banco local
         function deleteUserFromDB(emailToDelete) {
             if (emailToDelete === "teste@teste.com") return;
-
             let db = getUsersFromDB();
             db = db.filter(user => user.email !== emailToDelete);
             localStorage.setItem('users_db', JSON.stringify(db));
-            
             renderUsersList();
         }
 
-        // Exibe o Toast de Sucesso ao excluir
         function showToastNotification() {
             const toast = document.getElementById('toast-success');
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
         }
 
-        // Renderiza a lista de usuários com botão de excluir
         function renderUsersList() {
             const wrapper = document.getElementById('users-list-wrapper');
             wrapper.innerHTML = '';
@@ -563,7 +687,6 @@
 
                 info.appendChild(nameSpan);
                 info.appendChild(emailSpan);
-
                 item.appendChild(info);
 
                 if (user.email !== "teste@teste.com") {
@@ -571,7 +694,6 @@
                     deleteBtn.className = 'btn-danger';
                     deleteBtn.innerText = 'Excluir';
                     deleteBtn.id = `btn-delete-${user.email.replace(/[@.]/g, '-')}`;
-                    // Ao invés de deletar direto, abre o modal de confirmação
                     deleteBtn.onclick = () => openConfirmModal(user.email);
                     item.appendChild(deleteBtn);
                 } else {
@@ -581,21 +703,23 @@
                     systemLabel.innerText = 'Sistema';
                     item.appendChild(systemLabel);
                 }
-
                 wrapper.appendChild(item);
             });
         }
 
-        // Gerenciamento de Navegação SPA
         function navigateTo(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            document.querySelectorAll('.page').forEach(page => { page.classList.remove('active'); });
             clearErrors();
             document.getElementById(pageId).classList.add('active');
 
             if (pageId === 'page-welcome') {
                 renderUsersList();
+                // Limpa os estados de upload ao entrar
+                document.getElementById('upload-avatar').value = "";
+                document.getElementById('upload-resume').value = "";
+                document.getElementById('avatar-success-msg').style.display = 'none';
+                document.getElementById('resume-success-msg').style.display = 'none';
+                document.getElementById('welcome-avatar').innerHTML = "🚀";
             }
         }
 
@@ -610,28 +734,20 @@
             document.getElementById('error-reg-password').style.display = 'none';
         }
 
-        // Validações
         function validatePasswordStrength(password) {
-            const minLength = password.length >= 7;
-            const hasLowercase = /[a-z]/.test(password);
-            const hasNumber = /[0-9]/.test(password);
-            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-            return minLength && hasLowercase && hasNumber && hasSpecial;
+            return password.length >= 7 && /[a-z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password);
         }
 
         function validateEmailFormat(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
-        // Evento de Login
         function handleLogin(event) {
             event.preventDefault();
             clearErrors();
 
             const emailInput = document.getElementById('login-email').value.trim();
             const passwordInput = document.getElementById('login-password').value;
-
             let hasError = false;
 
             if (!emailInput) {
@@ -640,14 +756,12 @@
                 errEmail.style.display = 'block';
                 hasError = true;
             }
-
             if (!passwordInput) {
                 const errPass = document.getElementById('error-login-password');
                 errPass.innerText = "O campo senha não pode estar vazio.";
                 errPass.style.display = 'block';
                 hasError = true;
             }
-
             if (hasError) return;
 
             if (!validateEmailFormat(emailInput)) {
@@ -656,10 +770,9 @@
                 errEmail.style.display = 'block';
                 return;
             }
-
             if (!validatePasswordStrength(passwordInput)) {
                 const errPass = document.getElementById('error-login-password');
-                errPass.innerText = "A senha deve conter no mínimo 7 dígitos, incluindo uma letra minúscula, um número e um caractere especial.";
+                errPass.innerText = "A senha não cumpre os requisitos mínimos.";
                 errPass.style.display = 'block';
                 return;
             }
@@ -677,7 +790,6 @@
             }
         }
 
-        // Evento de Cadastro
         function handleRegister(event) {
             event.preventDefault();
             clearErrors();
@@ -685,7 +797,6 @@
             const name = document.getElementById('reg-first-name').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const password = document.getElementById('reg-password').value;
-
             let hasError = false;
 
             if (!name) {
@@ -694,44 +805,34 @@
                 err.style.display = 'block';
                 hasError = true;
             }
-
             if (!validateEmailFormat(email)) {
                 const err = document.getElementById('error-reg-email');
                 err.innerText = "Insira um e-mail válido.";
                 err.style.display = 'block';
                 hasError = true;
             }
-
             if (!validatePasswordStrength(password)) {
                 const err = document.getElementById('error-reg-password');
-                err.innerText = "A senha não cumpre os requisitos mínimos de segurança.";
+                err.innerText = "A senha não cumpre os requisitos mínimos.";
                 err.style.display = 'block';
                 hasError = true;
             }
-
             if (hasError) return;
 
             const db = getUsersFromDB();
-            const emailExists = db.some(user => user.email === email);
-
-            if (emailExists) {
+            if (db.some(user => user.email === email)) {
                 const mainError = document.getElementById('register-main-error');
                 mainError.innerText = "Este e-mail já está cadastrado no sistema.";
                 mainError.style.display = 'block';
                 return;
             }
 
-            saveUserToDB({
-                email: email,
-                password: password,
-                name: name
-            });
-
+            saveUserToDB({ email, password, name });
             navigateTo('page-login');
+            
             const successMsg = document.getElementById('login-main-success');
             successMsg.innerText = "Cadastro realizado com sucesso! Insira suas credenciais.";
             successMsg.style.display = 'block';
-            
             document.getElementById('form-register').reset();
         }
 

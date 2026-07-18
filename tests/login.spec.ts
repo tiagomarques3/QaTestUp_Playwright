@@ -61,7 +61,7 @@ test.describe('Testes de Login', () => {
         await expect(page.locator('#login-main-error')).toHaveText('E-mail ou senha incorretos.')
     })
 
-    test.only('Validando botao Criar uma conta', async({page})=>{
+    test('Validando botao Criar uma conta', async({page})=>{
         await loginPage.createAccountButton()
         await expect(page.locator('#register-title')).toHaveText('Criar Conta')
         await expect(page.locator('#register-subtitle')).toHaveText('Preencha os dados para simular o cadastro')

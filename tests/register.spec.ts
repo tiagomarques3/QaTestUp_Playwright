@@ -50,6 +50,11 @@ test.describe('Teste de cadastro de novo usuario', () => {
         await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos de segurança.')
     })
 
+    test('Validar botão de voltar para a página de login', async({page})=>{
+        await registerPage.accessRegistrationForm()
+        await registerPage.buttonBackLogin()
+    })
+
 
 
 

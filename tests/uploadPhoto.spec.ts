@@ -11,7 +11,7 @@ test.describe('Inserir foto de perfil', ()=>{
         await uploadPhotoPage.login()
     })
 
-    test.only('Deve realizar upload com sucesso', async ({page})=>{
+    test('Deve realizar upload com sucesso', async ({page})=>{
         await uploadPhotoPage.documentCenter()
     })
 })

@@ -9,7 +9,7 @@ export class LoginPage {
     }
 
     async goto() {
-         await this.page.goto(LoginPage.BASE_URL, { waitUntil: 'domcontentloaded' });
+         await this.page.goto(LoginPage.BASE_URL, { waitUntil: 'networkidle' });
     }
 
     async checkPage() {

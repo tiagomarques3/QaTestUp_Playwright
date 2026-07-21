@@ -9,7 +9,7 @@ export class RegisterPage {
     }
 
     async accessRegistrationForm() {
-        await this.page.goto(RegisterPage.BASE_URL, { waitUntil: 'networkidle' })
+        await this.page.goto(RegisterPage.BASE_URL, { waitUntil: 'domcontentloaded' })
         await this.page.waitForSelector('#btn-go-to-register', { state: 'visible' })
         await this.page.locator('#btn-go-to-register').click()
         await expect(this.page.locator('#register-title')).toHaveText('Criar Conta')

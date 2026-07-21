@@ -9,7 +9,7 @@ export class DeleteUserPage {
     }
 
     async goto() {
-        await this.page.goto(DeleteUserPage.BASE_URL, { waitUntil: 'networkidle' })
+        await this.page.goto(DeleteUserPage.BASE_URL, { waitUntil: 'domcontentloaded' });
         await this.page.waitForSelector('#login-title', { state: 'visible' })
         await expect(this.page.locator('#login-title')).toHaveText('Seja Bem-Vindo ao QA TestUp')
     }

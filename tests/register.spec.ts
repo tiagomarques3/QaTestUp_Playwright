@@ -31,7 +31,7 @@ test.describe('Teste de cadastro de novo usuario', () => {
 
         await expect(page.locator('#error-reg-name')).toHaveText('O nome é obrigatório.')
         await expect(page.locator('#error-reg-email')).toHaveText('Insira um e-mail válido.')
-        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos de segurança.')
+        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos.')
     })
 
     test('Nao deve cadastrar quando e-mail com formato invalido', async ({ page }) => {
@@ -42,12 +42,12 @@ test.describe('Teste de cadastro de novo usuario', () => {
 
     test('Nao deve cadastrar quando senha com formato invalido', async ({ page }) => {
         await registerPage.fillForm('Janbug', 'Play', '12365478993', '74999999999', 'jan@play.com', 'janjan25')
-        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos de segurança.')
+        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos.')
     })
 
     test('Nao deve cadastrar novo usuario quando senha curta', async({page})=>{
          await registerPage.fillForm('Janbug', 'Play', '12365478993', '74999999999', 'jan@play.com', 'jan25@')
-        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos de segurança.')
+        await expect(page.locator('#error-reg-password')).toHaveText('A senha não cumpre os requisitos mínimos.')
     })
 
     test('Validar botão de voltar para a página de login', async({page})=>{

@@ -2,14 +2,14 @@ import { Page, expect } from '@playwright/test'
 
 export class LoginPage {
     readonly page: Page;
-    static readonly BASE_URL = 'file:///C:/Projects/QaTestUp/index.html'
+    static readonly BASE_URL = 'http://127.0.0.1:3000'
 
     constructor(page: Page) {
         this.page = page;
     }
 
     async goto() {
-         await this.page.goto(LoginPage.BASE_URL, { waitUntil: 'networkidle' });
+          await this.page.goto('/');
     }
 
     async checkPage() {

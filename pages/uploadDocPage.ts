@@ -3,14 +3,14 @@ import { Page, expect } from '@playwright/test'
 
 export class UploadDocPage {
     readonly page: Page;
-    static readonly BASE_URL = 'file:///C:/Projects/QaTestUp/index.html'
+    static readonly BASE_URL = 'http://127.0.0.1:3000'
 
     constructor(page: Page) {
         this.page = page;
     }
 
     async goto() {
-        await this.page.goto(UploadDocPage.BASE_URL, { waitUntil: 'networkidle' })
+        await this.page.goto('/');
         await this.page.waitForSelector('#login-title', { state: 'visible' })
         await expect(this.page.locator('#login-title')).toHaveText('Seja Bem-Vindo ao QA TestUp')
     }
